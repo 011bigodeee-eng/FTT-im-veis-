@@ -31,7 +31,7 @@ Use o checkout existente; tarefas na nuvem já são isoladas e não exigem workt
 - Compartilhamento nativo ou cópia do link.
 - Simulação Price com taxa anual efetiva editável, inclusive juros zero.
 - Formulários validados: preparam uma mensagem e oferecem um link para abrir o WhatsApp; não simulam envio ao servidor. Visitas dependem da confirmação do corretor.
-- Fundo arquitetônico animado em SVG/CSS, com pausa, introdução de sessão e suporte a movimento reduzido.
+- Fundo fotográfico com movimento suave de câmera e transições entre três cenas, com pausa, introdução de sessão e suporte a movimento reduzido.
 - Revelação individual de cards, categorias e seções durante a rolagem.
 - Área de avaliação imobiliária com os serviços fornecidos pelo responsável: avaliação técnica conforme ABNT, análise de acabamento, regularização, anexação, estudo de viabilidade e avaliações particulares e judiciais.
 - Dados pessoais de formulários nunca são persistidos.

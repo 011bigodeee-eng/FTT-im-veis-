@@ -52,3 +52,19 @@
 @media(prefers-reduced-motion:reduce){.hero-art,.hero-art *{animation:none!important;will-change:auto}.motion-toggle{display:none}}
 @media(prefers-reduced-motion:reduce){[data-scroll-reveal]{opacity:1!important;transform:none!important;filter:none!important}}
 .search-tabs a{display:inline-flex;align-items:center;justify-content:center;padding:12px 30px;font-size:11px;color:var(--ink);height:44px;min-width:90px;transition:background .2s,color .2s}.search-tabs a:hover{background:#e9aa3633}.search-tabs a.active:hover{background:#f4bd59}@media(max-width:600px){.search-tabs a{padding:12px 24px;font-size:10px;min-width:85px}}
+/* Photographic direction: the reference layout with continuous camera movement. */
+.hero-art.hero-photographic{background:var(--navy)}
+.hero-photo{position:absolute;inset:0;overflow:hidden;opacity:0;will-change:opacity}
+.hero-photo-0{opacity:1;z-index:0}
+.hero-photo-1{z-index:1;animation:hero-crossfade-second 30s linear infinite}
+.hero-photo-2{z-index:2;animation:hero-crossfade-third 30s linear infinite}
+.hero-photo-camera{position:absolute;inset:-3%;animation:hero-camera-drift 18s ease-in-out infinite alternate;transform-origin:65% 50%;will-change:transform}
+.hero-photo-1 .hero-photo-camera{animation-delay:-6s;transform-origin:50% 55%}
+.hero-photo-2 .hero-photo-camera{animation-delay:-12s;transform-origin:60% 45%}
+.hero-photo-camera img{object-fit:cover}
+.hero .hero-shade{background:linear-gradient(90deg,rgba(10,24,39,.88),rgba(13,28,42,.55) 48%,rgba(12,24,36,.12)),linear-gradient(0deg,#142537a0,transparent 55%)}
+@keyframes hero-camera-drift{from{transform:scale(1) translate3d(0,0,0)}to{transform:scale(1.14) translate3d(-1.5%,-1%,0)}}
+@keyframes hero-crossfade-second{0%,25%{opacity:0}33%,59%{opacity:1}67%,100%{opacity:0}}
+@keyframes hero-crossfade-third{0%,59%{opacity:0}67%,92%{opacity:1}100%{opacity:0}}
+@media(max-width:600px){.hero .hero-shade{background:linear-gradient(90deg,#102032df,#10203265),linear-gradient(0deg,#142537a0,transparent)}.hero-photo-camera{inset:-2%;transform-origin:65% 50%}.hero-photo-0 img{object-position:65% center!important}}
+@media(prefers-reduced-motion:reduce){.hero-photo-camera{animation:none!important;transform:none!important;will-change:auto}.hero-photo{animation:none!important;will-change:auto}.hero-photo:not(.hero-photo-0){display:none}}

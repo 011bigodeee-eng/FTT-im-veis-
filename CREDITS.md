@@ -9,7 +9,7 @@
 
 Imagens distribuídas nos exemplos públicos de CodeWithSadee:
 
-- https://github.com/codewithsadee/realvine — `assets/images/property-1.jpg` até `property-6.jpg`. A imagem `property-6.jpg` também compõe a faixa editorial. O fundo principal é uma composição vetorial autoral em SVG/CSS, sem fotografia ou vídeo externo.
+- https://github.com/codewithsadee/realvine — `assets/images/property-1.jpg` até `property-6.jpg`. As imagens `property-6.jpg` e `property-5.jpg` compõem o fundo fotográfico principal, com movimento de câmera e transições em CSS. A terceira cena usa a fotografia de interior creditada abaixo. Não há vídeo ou player externo.
 - https://github.com/codewithsadee/homeverse — `assets/images/about-banner-2.jpg` (interior) e `assets/images/property-3.jpg` (detalhe).
 
 Os READMEs das fontes declaram: “This project is free to use and does not contains any license.” As imagens são mantidas localmente para esta demonstração, sem alegação de autoria ou de correspondência com imóveis da FTT. Antes da versão comercial definitiva, substituir por fotografias dos imóveis com autorização documentada ou por acervo com licença individual comprovada.
