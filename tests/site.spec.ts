@@ -68,3 +68,66 @@ test('Comprar and Alugar open filtered listings from both the header and hero', 
   await page.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Alugar', exact: true }).click();
   await expect(page.locator('.property-card')).toHaveCount(5);
 });
+
+test('cinematic slideshow advances automatically and has keyboard-accessible manual controls', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.hero-photo-0')).toHaveClass(/is-active/);
+  await expect(page.locator('.hero-photo-1')).toHaveClass(/is-active/, { timeout: 12000 });
+  await page.getByRole('button', { name: 'Ver imagem 3: O conforto de pertencer' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.hero-photo-2')).toHaveClass(/is-active/);
+  await expect(page.getByRole('button', { name: 'Ver imagem 3: O conforto de pertencer' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByRole('button', { name: 'Retomar animação do fundo' })).toBeVisible();
+  await page.getByRole('button', { name: 'Imagem anterior do slideshow' }).click();
+  await expect(page.locator('.hero-photo-1')).toHaveClass(/is-active/);
+  await page.getByRole('button', { name: 'Próxima imagem do slideshow' }).click();
+  await expect(page.locator('.hero-photo-2')).toHaveClass(/is-active/);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: 'Ver imagem 1: Linhas que inspiram' }).click();
+  await expect(page.locator('.hero-photo-0')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.hero-photo-2')).toHaveCSS('opacity', '0');
+});
+
+test('redesigned hero search combines rental, type, city, neighborhood and budget', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel('Preço máximo', { exact: true }).selectOption('1000000');
+  await page.getByLabel('Finalidade da busca').selectOption('Alugar');
+  await expect(page.getByLabel('Preço máximo', { exact: true })).toHaveValue('');
+  await page.getByLabel('Tipo de imóvel', { exact: true }).selectOption('Casa');
+  await page.getByLabel('Cidade', { exact: true }).selectOption('Campinas');
+  await page.getByLabel('Bairro', { exact: true }).selectOption('Cambuí');
+  await page.getByLabel('Cidade', { exact: true }).selectOption('Valinhos');
+  await expect(page.getByLabel('Bairro', { exact: true })).toHaveValue('');
+  await page.getByLabel('Bairro', { exact: true }).selectOption('Jardim Paiquerê');
+  await page.getByLabel('Preço máximo', { exact: true }).selectOption('7000');
+  await expect(page.locator('.search-footnote')).toContainText('1 possibilidade demonstrativa');
+  await page.getByRole('button', { name: 'Buscar imóveis' }).click();
+  await expect(page.locator('.property-card')).toHaveCount(1);
+  await expect(page.locator('.property-card h3')).toHaveText('Casa Jardim');
+  await expect(page.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Alugar', exact: true })).toHaveAttribute('aria-current', 'page');
+});
+
+test('premium layouts fit mobile, tablet and desktop and the mobile menu traps focus', async ({ page }) => {
+  for (const width of [360, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.locator('.premium-search').scrollIntoViewIfNeeded();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.locator('#sobre').scrollIntoViewIfNeeded();
+    await expect(page.locator('.about-copy')).toHaveCSS('opacity', '1');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.locator('.architecture-feature').scrollIntoViewIfNeeded();
+    await expect(page.getByRole('heading', { name: 'Espaços extraordinários. Novas possibilidades.' })).toBeVisible();
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Abrir menu' }).click();
+  await expect(page.getByRole('dialog', { name: 'Menu de navegação' })).toBeVisible();
+  await page.getByRole('button', { name: 'Fechar menu' }).focus();
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => !!document.activeElement?.closest('#mobile-navigation'))).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog', { name: 'Menu de navegação' })).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'Abrir menu' })).toBeFocused();
+});

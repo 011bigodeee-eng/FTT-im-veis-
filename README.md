@@ -61,3 +61,9 @@ As fotografias são referências de espaços, sem correspondência com localiza�
 `lib/properties.ts` concentra o catálogo, os filtros e as funções financeiras. Uma futura camada de consulta pode substituir o array sem acoplar a interface a um provedor. A interface não coleta leads em backend. Para produção, revisar dados, fotos e política de privacidade com o responsável.
 
 Descrição original do repositório: site corretora.
+
+## Direção visual 2.0
+
+A evolução preserva todas as rotas e funcionalidades. O hero tem três cenas controladas, navegação por teclado, progresso, pausa e avanço automático a cada oito segundos. A rotação pausa fora da tela e em abas ocultas; a seleção manual pausa o slideshow. Movimento reduzido mantém a navegação manual e elimina parallax, zoom e revelações animadas. A imagem principal é uma ilustração arquitetônica gerada por IA, otimizada em WebP e identificada como ilustrativa; não é uma oferta real.
+
+A busca combina finalidade, tipo, cidade, bairro e orçamento. Trocar a cidade limpa um bairro incompatível; trocar a finalidade limpa o orçamento. Os atalhos Comprar e Alugar continuam abrindo o catálogo diretamente. O menu mobile usa um diálogo nativo com foco contido e fechamento por Escape. A navegação indica a finalidade ou a seção atual. A seção institucional utiliza uma composição editorial, e a faixa “Espaços extraordinários. Novas possibilidades.” acrescenta profundidade com parallax discreto.
