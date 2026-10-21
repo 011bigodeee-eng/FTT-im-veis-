@@ -31,7 +31,9 @@ Use o checkout existente; tarefas na nuvem já são isoladas e não exigem workt
 - Compartilhamento nativo ou cópia do link.
 - Simulação Price com taxa anual efetiva editável, inclusive juros zero.
 - Formulários validados: preparam uma mensagem e oferecem um link para abrir o WhatsApp; não simulam envio ao servidor. Visitas dependem da confirmação do corretor.
-- Introdução de sessão, animações leves e suporte a movimento reduzido.
+- Fundo arquitetônico animado em SVG/CSS, com pausa, introdução de sessão e suporte a movimento reduzido.
+- Revelação individual de cards, categorias e seções durante a rolagem.
+- Área de avaliação imobiliária com os serviços fornecidos pelo responsável: avaliação técnica conforme ABNT, análise de acabamento, regularização, anexação, estudo de viabilidade e avaliações particulares e judiciais.
 - Dados pessoais de formulários nunca são persistidos.
 
 ## Verificação de interface
@@ -40,7 +42,7 @@ Use o checkout existente; tarefas na nuvem já são isoladas e não exigem workt
 CHROMIUM_PATH=/usr/bin/chromium npx playwright test
 ```
 
-O teste inicia o servidor de produção; execute `npm run build` antes. Se Chromium estiver em outro caminho, ajuste `CHROMIUM_PATH`. Os testes cobrem navegação, imagens, noindex, busca, preferências, comparação, galeria, formulários, cálculo e mobile.
+O teste inicia o servidor de produção; execute `npm run build` antes. Se Chromium estiver em outro caminho, ajuste `CHROMIUM_PATH`. Os testes cobrem navegação, imagens, noindex, busca, preferências, comparação, galeria, formulários, cálculo, mobile, revelação na rolagem, pausa e movimento reduzido.
 
 ## Publicação demonstrativa na Vercel
 
