@@ -67,3 +67,15 @@ Descrição original do repositório: site corretora.
 A evolução preserva todas as rotas e funcionalidades. O hero tem três cenas controladas, navegação por teclado, progresso, pausa e avanço automático a cada oito segundos. A rotação pausa fora da tela e em abas ocultas; a seleção manual pausa o slideshow. Movimento reduzido mantém a navegação manual e elimina parallax, zoom e revelações animadas. A imagem principal é uma ilustração arquitetônica gerada por IA, otimizada em WebP e identificada como ilustrativa; não é uma oferta real.
 
 A busca combina finalidade, tipo, cidade, bairro e orçamento. Trocar a cidade limpa um bairro incompatível; trocar a finalidade limpa o orçamento. Os atalhos Comprar e Alugar continuam abrindo o catálogo diretamente. O menu mobile usa um diálogo nativo com foco contido e fechamento por Escape. A navegação indica a finalidade ou a seção atual. A seção institucional utiliza uma composição editorial, e a faixa “Espaços extraordinários. Novas possibilidades.” acrescenta profundidade com parallax discreto.
+
+## Abertura cinematográfica sem flash
+
+A decisão de exibição ocorre no script inline de `lib/intro.ts`, colocado no `<head>` antes do corpo. Ele lê `sessionStorage` e movimento reduzido antes do primeiro frame. CSS crítico inline mantém o fundo azul quase preto e o restante da página invisível durante a apresentação. O atributo inicial é controlado deliberadamente no elemento HTML com `suppressHydrationWarning`; a estrutura renderizada pelo servidor e hidratada pelo React permanece a mesma.
+
+`components/cinematic-intro.tsx` é renderizado no servidor. A timeline nativa de três segundos desenha a marca, atravessa um feixe dourado, revela nome e assinatura e abre uma máscara para o hero. `components/brand-mark.tsx` compartilha exatamente a mesma geometria entre a marca do cabeçalho e a intro. A animação é código SVG/CSS, sem vídeos, áudio ou novas bibliotecas.
+
+Os eventos nativos de animação liberam a página e o scroll mesmo antes da hidratação. O botão Pular abertura, a tecla Escape e a navegação por Tab funcionam no bootstrap. Existe apenas um temporizador de segurança para **liberar** a página caso eventos ou estilos falhem; ele nunca esconde conteúdo e não conduz a timeline normal. Quando a abertura termina ou é pulada, `ftt-visited=yes` evita repetição na sessão. Movimento reduzido abre diretamente. Se o armazenamento estiver bloqueado, a abertura continua terminando normalmente.
+
+O título do hero acompanha a revelação por CSS, e o slideshow espera a liberação da intro. A transição da página mantém seu conteúdo SSR visível por trás da máscara para não criar uma tela vazia se o React atrasar.
+
+`tests/intro.spec.ts` verifica os frames iniciais, recarga, navegação, sessão nova, celular, teclado, preferência de movimento reduzido, hidratação atrasada, armazenamento bloqueado e interrupção da animação. Para rever a abertura manualmente, use uma nova sessão do navegador ou remova apenas a chave `ftt-visited` do sessionStorage do site e recarregue.

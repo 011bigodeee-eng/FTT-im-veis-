@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { motion, useMotionValue, useInView, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
+import {useIntroReady} from './use-intro-ready';
 
 const scenes = [
   { src: '/images/hero-premium.webp', label: 'Linhas que inspiram', detail: 'Arquitetura contemporânea', position: 'center 55%' },
@@ -13,6 +14,7 @@ const scenes = [
 const SLIDE_DURATION = 8000;
 
 export function HeroBackdrop() {
+  const introReady = useIntroReady();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
@@ -24,7 +26,7 @@ export function HeroBackdrop() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
   useEffect(() => {
-    if (paused || reduced || !visible) return;
+    if (paused || reduced || !visible || !introReady) return;
     let previous: number | undefined;
     let frame: number;
     const tick = (now: number) => {
@@ -39,7 +41,7 @@ export function HeroBackdrop() {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [paused, reduced, visible, progress]);
+  }, [paused, reduced, visible, introReady, progress]);
 
   function select(index: number) {
     setActive((index + scenes.length) % scenes.length);
@@ -77,11 +79,10 @@ export function HeroBackdrop() {
 }
 
 export function HeroTitle() {
-  const reduced = useReducedMotion();
   let wordIndex = 0;
   const words = (text: string) => text.split(' ').map(word => {
-    const delay = 0.15 + wordIndex++ * 0.085;
-    return <span className="title-word-mask" key={word}><motion.span initial={reduced ? false : { y: '110%', opacity: 0 }} animate={{ y: '0%', opacity: 1 }} transition={{ duration: reduced ? 0 : 0.9, delay: reduced ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}>{word}</motion.span></span>;
+    const index = wordIndex++;
+    return <span className="title-word-mask" key={word}><motion.span initial={false} className="ftt-hero-word" style={{ '--word-index': index } as CSSProperties}>{word}</motion.span></span>;
   });
   return <h1 className="hero-title" aria-label="Seu próximo capítulo começa no lugar certo."><span className="title-line" aria-hidden="true">{words('Seu próximo capítulo')}</span><span className="title-line" aria-hidden="true">{words('começa no')} <em>{words('lugar certo.')}</em></span></h1>;
 }
